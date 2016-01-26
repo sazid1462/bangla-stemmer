@@ -24,7 +24,7 @@ public class RuleFileParser {
     private TreeSet<Character> st;
     private TreeSet<String> escape;
     private HashMap<String, String> replaceRule;
-    private HashMap<String, Integer> mValue;        // the length of the pattern (cv)* where c=consonant v=vowel
+    private HashMap<String, Integer> mValue;        //  the length of the pattern (cv)* where c=consonant v=vowel
 
     public RuleFileParser(String p) {
         replaceRule = new HashMap<String, String>();
