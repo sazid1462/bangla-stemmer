@@ -105,7 +105,8 @@ public class RuleFileParser {
     }
 
     public String stemOfWord(String word) {
-        int i, j;
+        int i, j, mRule=0;
+        int m = calculateM(word);
 
         for (i = 0; i < pass.size(); i++) {
             for (j = 0; j < pass.get(i).size(); j++) {
@@ -115,6 +116,13 @@ public class RuleFileParser {
 //				System.out.println("matcher-->"+matcher);
                 if (word.matches(matcher)) {
                     int indx = word.length() - replacePrefix.length();
+                    if (mValue.containsKey(replacePrefix)) {
+                        mRule = mValue.get(replacePrefix);
+                    } else {
+                        mRule = 0;
+                    }
+                    // m is lower than needed so don't apply the rule
+                    if (m < mRule) continue;
                     if (replaceRule.containsKey(replacePrefix)) {
                         String replaceSuffix = replaceRule.get(replacePrefix);
                         StringBuilder builder = new StringBuilder(word);
@@ -135,6 +143,10 @@ public class RuleFileParser {
         }
 
         return word;
+    }
+
+    private int calculateM(String word) {
+        return word.length();
     }
 
     private void dependantCharSetInstallation() {
