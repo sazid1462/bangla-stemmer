@@ -28,6 +28,7 @@ public class RuleFileParser {
 
     public RuleFileParser(String p) {
         replaceRule = new HashMap<String, String>();
+        mValue = new HashMap<String, Integer>();
 
         dependantCharSetInstallation();
 //		escapeOfRuleInstallation();
@@ -43,8 +44,13 @@ public class RuleFileParser {
                 line = commentTrim(line);
                 if (line.equals("")) continue;
                 int m = extractValueOfM(line);
+                line = line.replaceAll("[+].*", "");
+                //System.out.println(line);
                 String replace = extractReplaceRule(line);
                 line = line.replaceAll("->.*", "");
+                if (m != 0) {
+                    mValue.put(line, m);
+                }
                 if (!replace.equals("")) {
                     replaceRule.put(line, replace);
                 }
@@ -81,7 +87,12 @@ public class RuleFileParser {
     private int extractValueOfM(String str) {
         int m = 0;
         // গুলি	 $0
-        // TODO Extract m
+        //System.out.println(str);
+        if (str.matches(".*[+].*")) {
+            String[] l = str.split("[+]");
+            m = Integer.parseInt(l[1]);
+        }
+        //System.out.println("m = "+m);
         return m;
     }
 
